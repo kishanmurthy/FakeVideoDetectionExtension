@@ -27,3 +27,4 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
         update_url(url);
     });
 });
+

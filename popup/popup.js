@@ -16,9 +16,17 @@ send_button.onclick = ()=> {
       })
       .then(response => response.json())
       .then(data => {
-        chrome.storage.local.set({'youtube_url': youtube_url.value, 'request_id': data['request_id']})
+        chrome.storage.local.set({'youtube_url': youtube_url.value, 'request_id': data['request_id']});
+        var value = Math.random()
+        if (value%2 == 0){
+            chrome.action.setIcon({ path: "nfake32.png" });
+        } else {
+            chrome.action.setIcon({ path: "fake32.png" });
+        }
       })
       .catch(error => console.error(error));
+
+    
 };
 
 
@@ -28,3 +36,4 @@ chrome.storage.local.get(['youtube_url'], (result)=>{
         youtube_url.value = result.youtube_url;
     }
 });
+
