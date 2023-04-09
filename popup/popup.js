@@ -13,7 +13,7 @@ document.getElementById('result-audio-text').hidden = true
 
 send_button.onclick = ()=> {
     console.log("You clicked the button!");
-    chrome.storage.local.set({'youtube_url': youtube_url.value, 'request_id': null, 'result':null})
+    chrome.storage.local.set({'youtube_url': youtube_url.value, 'request_id': null, 'result':null, 'status': 'ready'})
     
    url =  BASE_URL + '/detect_authenticity'
     data = {url: youtube_url.value}
@@ -30,7 +30,7 @@ send_button.onclick = ()=> {
     .then(data => {
         console.log("Success in ajax popup:", data)
         document.getElementById('status-text-downloading').hidden = false
-        chrome.storage.local.set({'youtube_url': youtube_url.value, 'request_id': data['request_id']})
+        chrome.storage.local.set({'youtube_url': youtube_url.value, 'request_id': data['request_id'], 'status': 'downloading'})
         chrome.storage.local.get(function(result){console.log(result)})
         chrome.runtime.sendMessage({event: 'check_request'})
     })
@@ -38,11 +38,12 @@ send_button.onclick = ()=> {
 };
 
 
-chrome.storage.local.get(['youtube_url'], (result)=>{
+chrome.storage.local.get(['youtube_url','status'], (result)=>{
     if (result.youtube_url)
     {
         youtube_url.value = result.youtube_url
     }
+    update_status(result.status)
 });
 
 
@@ -51,17 +52,40 @@ chrome.runtime.onMessage.addListener(data => {
     switch(data.event){
         case 'status_downloading':
             console.log(" Popup JS Status downloading")
+            update_status('downloading')
+            break;
+        case 'status_downloaded':
+            console.log(" Popup JS Status downloaded")
+            update_status('downloaded')
+            break;
+        case 'status_complete':
+            console.log(" Popup JS Status Complete")
+            update_status('complete')
+            update_result();
+            break;
+        default: 
+            break;
+
+    }
+});
+
+
+
+const update_status = (status)=>{
+    switch(status){
+        case 'downloading':
+            console.log(" Popup JS Status downloading")
             document.getElementById('status-text-downloading').hidden = false
             document.getElementById('status-text-downloaded').hidden = true
             document.getElementById('status-text-complete').hidden = true
             break;
-        case 'status_downloaded':
+        case 'downloaded':
             console.log(" Popup JS Status downloaded")
             document.getElementById('status-text-downloading').hidden = true
             document.getElementById('status-text-downloaded').hidden = false
             document.getElementById('status-text-complete').hidden = true
             break;
-        case 'status_complete':
+        case 'complete':
             console.log(" Popup JS Status Complete")
             document.getElementById('status-text-downloading').hidden = true
             document.getElementById('status-text-downloaded').hidden = true
@@ -72,8 +96,7 @@ chrome.runtime.onMessage.addListener(data => {
             break;
 
     }
-});
-
+}
 
 const update_result = ()=>{
     chrome.storage.local.get(['result'], (result)=>{

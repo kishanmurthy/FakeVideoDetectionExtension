@@ -16,16 +16,18 @@ const check_request = (request_id)=>{
             if(data['status'] == "DOWNLOADING")
             {
                 chrome.runtime.sendMessage({event: 'status_downloading'})
+                chrome.storage.local.set({'status': 'downloading'})
             }
             else if(data['status'] == "DOWNLOADED")
             {
                 chrome.runtime.sendMessage({event: 'status_downloaded'})
+                chrome.storage.local.set({'status': 'downloaded'})
             }
             setTimeout(check_request, 5000, request_id);
         }
         else{            
             console.log("Request completed");
-            
+            chrome.storage.local.set({'status': 'complete'})
             document.getElementById('status-text-downloading').hidden = true
             document.getElementById('status-text-downloaded').hidden = true
             document.getElementById('status-text-complete').hidden = false
