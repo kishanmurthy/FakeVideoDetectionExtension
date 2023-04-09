@@ -1,5 +1,6 @@
+import { check_request } from './api/api.js';
+
 const update_url = (url)=>{
-    //console.log("You url is: " + url);
     if(url)
     {
         //console.log("InYou url is: " + url);
@@ -27,4 +28,25 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
         update_url(url);
     });
 });
+
+
+chrome.runtime.onMessage.addListener(data => {
+    switch(data.event){
+        case 'check_request':
+            console.log("Checking request!");
+            chrome.storage.local.get(['request_id'], (result)=>{
+                console.log(result);
+                if (result.request_id)
+                {
+                    console.log("Fetching stastus of Request id" + result.request_id);
+                    check_request(result.request_id);
+                }
+            });
+            break;
+        default: 
+            break;
+
+    }
+});
+
 
