@@ -1,0 +1,17 @@
+{
+  "name": "Youtube Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "This extension will help you to analyze youtube videos",
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage"
+    ],
+    "host_permissions": ["<all_urls>"] 
+}
