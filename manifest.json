@@ -1,14 +1,17 @@
 {
-  "name": "Youtube Extension",
+  "name": "Fake Video Detector",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "This extension will help you to analyze youtube videos",
+  "description": "This extension will help you to detect fake youtube videos",
   "action": {
     "default_popup": "popup/popup.html"
   },
   "background": {
     "service_worker": "background.js",
     "type": "module"
+  },
+  "icons": { 
+    "32": "./images/main32.png"
   },
   "permissions": [
     "storage",

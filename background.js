@@ -3,10 +3,18 @@ import { check_request } from './api/api.js';
 const update_url = (url)=>{
     if(url)
     {
-        //console.log("InYou url is: " + url);
         if(url.includes("youtube.com") && (url.includes("watch?v=") || url.includes("shorts/"))){
+            console.log("Updating url");
             chrome.storage.local.set({'youtube_url': url})
-        
+            // send_request(url);
+
+            // chrome.storage.local.get(['youtube_url'], (result)=>{
+            //     console.log(result);
+            //     if (result.youtube_url != url)
+            //     {
+            //         send_request(url);
+            //     }
+            // });
         }
     }
 }
@@ -48,5 +56,4 @@ chrome.runtime.onMessage.addListener(data => {
 
     }
 });
-
 

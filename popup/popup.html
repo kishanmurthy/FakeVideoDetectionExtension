@@ -9,18 +9,33 @@
 </head>
 <body>
     <div class="container m-3">
-        <h1>Youtube Video Analayzer</h1>
+        <h1><b> Fake Video Detector</b></h1>
+    </div>
 
-        <div class="field">
-            <label for="url"></label>
-            <input type="text" id="youtube-url" name="youtube-url"><br>
+    <div class="field has-addons m-3">
+
+        <div class="control is-10">
+            <input class="input" type="text" id="youtube-url" name="youtube-url">
+        </div>
+        <div class="control">
+            <button class="button is is-success" id="send-button">Send</button>
         </div>
     </div>
 
-    <div class="container m-3">
-        <button class="button is-success" id="send-button">Generate</button>
-    </div>
-</body>
 
-<script src="popup.js"></script>
+    <div class="container m-3">
+        <p class="title is-6" id="status-text-downloading" style="margin-bottom: 12px;">Fetching the Video</p>
+        <p class="title is-6" id="status-text-downloaded" style="margin-bottom: 12px;">Analyzing Video</p>
+        <p class="title is-6" id="status-text-complete" style="margin-bottom: 12px;">Analysis Complete!</p>
+    </div>
+
+    <div class="container m-3">
+        <p class="title is-6" id="result-summary-text" style="margin-bottom: 12px;">This video seems <b>fake</b></p>
+        <p id="result-video-text">Images and Audio combined is 90% <b>fake</b></p>
+        <p id="result-image-text">Image is 90% <b>fake</b></p>
+        <p id="result-audio-text">Audio is 95% <b>fake</b></p>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
 </html>
